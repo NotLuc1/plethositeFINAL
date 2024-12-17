@@ -1,0 +1,220 @@
+/* Core Design System */
+:root {
+  --color-background: #000000;
+  --color-primary: #0F172A;
+  --color-primary-light: #3B82F6;
+  --color-chrome: #E2E8F0;
+  --color-chrome-light: #F8FAFC;
+  --color-chrome-dark: #94A3B8;
+}
+
+/* Epic 3D Title Effect */
+.epic-title {
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: all 0.5s ease;
+}
+
+.epic-title-text {
+  background: linear-gradient(
+    180deg,
+    var(--color-chrome-light) 0%,
+    var(--color-chrome) 50%,
+    var(--color-chrome-dark) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: titleFloat 8s ease-in-out infinite;
+}
+
+.epic-title-text::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    transparent 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  transform: translateZ(1px);
+  animation: chromeShine 3s linear infinite;
+}
+
+.epic-title:hover .epic-title-text {
+  animation-play-state: paused;
+  transform: translateZ(100px);
+  filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))
+         drop-shadow(0 0 40px rgba(59, 130, 246, 0.3));
+}
+
+/* Chrome Text Effect */
+.chrome-text {
+  background: linear-gradient(
+    180deg,
+    var(--color-chrome-light) 0%,
+    var(--color-chrome) 50%,
+    var(--color-chrome-dark) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.chrome-text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: chromeShine 3s linear infinite;
+}
+
+/* Sophisticated Background System */
+.bg-night {
+  background: linear-gradient(to bottom, var(--color-background), var(--color-primary));
+  position: relative;
+}
+
+.bg-night::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 70%);
+  pointer-events: none;
+}
+
+/* Chrome/Metallic Effects */
+.chrome-effect {
+  background: rgba(248, 250, 252, 0.03);
+  border: 1px solid rgba(248, 250, 252, 0.1);
+  box-shadow: 
+    0 0 0 1px rgba(59, 130, 246, 0.2),
+    0 0 15px rgba(59, 130, 246, 0.1),
+    inset 0 0 2px rgba(248, 250, 252, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* Button Effects */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(90deg, 
+    var(--color-primary-light),
+    var(--color-primary),
+    var(--color-primary-light)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-glow:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-glow:hover::before {
+  opacity: 0.5;
+}
+
+/* Hover Effects */
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 
+    0 0 30px rgba(59, 130, 246, 0.2),
+    0 0 60px rgba(30, 58, 138, 0.1);
+  transform: translateY(-2px);
+}
+
+/* 3D Effects */
+.preserve-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.translate-z {
+  transform: translateZ(20px);
+}
+
+/* Animation Keyframes */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes chromeShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    opacity: 0.8;
+    filter: brightness(1);
+  }
+  50% { 
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+}
+
+/* Content Cards */
+.content-card {
+  background: rgba(248, 250, 252, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  box-shadow: 
+    0 0 30px rgba(30, 58, 138, 0.1),
+    inset 0 0 1px rgba(248, 250, 252, 0.1);
+  transition: all 0.3s ease;
+}
+
+.content-card:hover {
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 
+    0 0 40px rgba(30, 58, 138, 0.2),
+    inset 0 0 2px rgba(248, 250, 252, 0.2);
+  transform: translateY(-2px);
+}

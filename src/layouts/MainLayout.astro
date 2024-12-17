@@ -1,0 +1,77 @@
+---
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/electric.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { 
+  title, 
+  description = "Plethos - Empowering Creators, Amplifying Content"
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-midnight text-chrome font-sans">
+    <!-- Dark room effect with subtle gradient -->
+    <div class="fixed inset-0">
+      <div class="absolute inset-0 bg-gradient-radial from-midnight-light/5 via-midnight to-midnight-dark"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(66,165,245,0.1),transparent_70%)]"></div>
+    </div>
+    
+    <!-- Animated background effects -->
+    <div class="fixed inset-0 pointer-events-none">
+      <div class="absolute inset-0 bg-[linear-gradient(45deg,rgba(66,165,245,0.03)_1px,transparent_1px),linear-gradient(-45deg,rgba(66,165,245,0.03)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
+    </div>
+    
+    <Navigation />
+    <main class="relative">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --chrome-gradient: linear-gradient(180deg, #FFFFFF 0%, #E8E9EB 50%, #C4C7CA 100%);
+    --primary-light: #42a5f5;
+    --primary: #002f6c;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .chrome-text {
+    background: var(--chrome-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 200;
+  }
+
+  /* Remove shadow from footer */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+const stats = [
+  { number: "5B+", label: "Views Generated", icon: "📈" },
+  { number: "$20M+", label: "Creator Revenue", icon: "💰" },
+  { number: "150+", label: "Creators", icon: "👥" },
+  { number: "4", label: "Major Platforms", icon: "🌐" }
+];
+
+// Duplicate stats array multiple times to ensure smooth infinite scroll
+const scrollingStats = [...stats, ...stats, ...stats, ...stats];
+---
+
+<div class="relative py-12 bg-midnight-dark/50 backdrop-blur-sm border-y border-chrome/10 overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-r from-neon-blue/5 to-neon-violet/5"></div>
+  
+  <div class="relative">
+    <div class="flex stats-scroll">
+      {scrollingStats.map(stat => (
+        <div class="flex items-center px-16 min-w-max"> {/* Increased padding from px-8 to px-16 */}
+          <span class="text-4xl mr-4">{stat.icon}</span>
+          <div>
+            <div class="text-3xl font-bold bg-chrome-linear bg-clip-text text-transparent">
+              {stat.number}
+            </div>
+            <div class="text-chrome/60">{stat.label}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .stats-scroll {
+    animation: statsScroll 60s linear infinite; /* Increased duration from 40s to 60s */
+  }
+
+  @keyframes statsScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Add hover pause effect */
+  .stats-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  /* Add gradient masks for smooth fade effect */
+  .relative::before,
+  .relative::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px; /* Increased from 100px */
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .relative::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-midnight-dark), transparent);
+  }
+
+  .relative::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-midnight-dark), transparent);
+  }
+</style>

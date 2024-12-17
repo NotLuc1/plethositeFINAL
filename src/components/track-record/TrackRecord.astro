@@ -1,0 +1,42 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import Heading from '../ui/Heading.astro';
+import ScrollingThumbnails from './ScrollingThumbnails.astro';
+
+// Add debug mode for development
+const DEBUG_MODE = false;
+---
+
+<Section id="track-record" background="space" class="py-32">
+  <Container>
+    <div class="text-center mb-20" data-fade>
+      <Heading level={2} class="text-4xl md:text-6xl mb-6">
+        TRACK RECORD
+      </Heading>
+    </div>
+
+    <div class="relative track-record-container">
+      {/* Debug overlay */}
+      {DEBUG_MODE && (
+        <div class="absolute inset-0 z-50 pointer-events-none">
+          <div class="w-full h-full border-2 border-red-500 opacity-50"></div>
+        </div>
+      )}
+
+      <div class="relative z-10">
+        <ScrollingThumbnails />
+      </div>
+    </div>
+  </Container>
+</Section>
+
+<style>
+.track-record-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Add padding to prevent cutoff */
+  padding: 2rem 0;
+}
+</style>

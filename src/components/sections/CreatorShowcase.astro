@@ -1,0 +1,97 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import Heading from '../ui/Heading.astro';
+
+const creators = [
+  {
+    name: "Gaming Pro",
+    platform: "YouTube",
+    image: "/images/creators/gaming.jpg",
+    stats: {
+      followers: "2.5M",
+      views: "150M+"
+    }
+  },
+  {
+    name: "Lifestyle Creator",
+    platform: "Instagram",
+    image: "/images/creators/lifestyle.jpg",
+    stats: {
+      followers: "1.2M",
+      engagement: "8%"
+    }
+  },
+  {
+    name: "Tech Reviewer",
+    platform: "Multiple",
+    image: "/images/creators/tech.jpg",
+    stats: {
+      followers: "3.1M",
+      views: "200M+"
+    }
+  },
+  {
+    name: "Educational Channel",
+    platform: "YouTube",
+    image: "/images/creators/education.jpg",
+    stats: {
+      followers: "1.8M",
+      views: "120M+"
+    }
+  }
+];
+---
+
+<Section background="gradient" class="py-32">
+  <Container>
+    <div class="text-center mb-20" data-fade>
+      <Heading level={2} class="text-4xl md:text-6xl mb-6">
+        CREATOR NETWORK
+      </Heading>
+      <p class="text-xl text-chrome/60 max-w-2xl mx-auto">
+        Join our network of successful creators across multiple platforms
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {creators.map(creator => (
+        <div 
+          class="group relative rounded-2xl overflow-hidden aspect-square"
+          data-fade
+        >
+          <!-- Creator Image -->
+          <div class="absolute inset-0 bg-gradient-to-br from-midnight-light to-midnight-dark">
+            <div class="w-full h-full bg-midnight-dark/50"></div>
+          </div>
+          
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-t from-midnight-dark via-midnight-dark/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <!-- Content -->
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <h3 class="text-xl font-bold mb-2 text-chrome">
+                {creator.name}
+              </h3>
+              <p class="text-neon-purple mb-4">
+                {creator.platform}
+              </p>
+              <!-- Stats -->
+              <div class="grid grid-cols-2 gap-4">
+                {Object.entries(creator.stats).map(([key, value]) => (
+                  <div>
+                    <div class="text-lg font-bold text-chrome">
+                      {value}
+                    </div>
+                    <div class="text-sm text-chrome/60 capitalize">
+                      {key}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>

@@ -1,0 +1,119 @@
+---
+import { generatePlaceholderThumbnails } from '../../utils/thumbnails';
+
+const thumbnails = generatePlaceholderThumbnails(200);
+const ROWS = 7;
+const COLS = 7;
+const LAYERS = 5;
+---
+
+<div class="relative h-[800px] overflow-hidden" data-fade>
+  <div class="absolute inset-0 perspective-3000">
+    <div class="thumbnail-grid preserve-3d">
+      {Array.from({ length: LAYERS }).map((_, z) => (
+        <div 
+          class="grid-layer preserve-3d"
+          style={`transform: translateZ(${-z * 200}px)`}
+        >
+          {Array.from({ length: ROWS }).map((_, y) => (
+            <div 
+              class="grid-row preserve-3d"
+              style={`transform: translateY(${(y - (ROWS-1)/2) * 150}px)`}
+            >
+              {Array.from({ length: COLS }).map((_, x) => {
+                const index = (z * ROWS * COLS) + (y * COLS) + x;
+                const thumbnail = thumbnails[index];
+                const offset = x - (COLS-1)/2;
+                
+                return thumbnail && (
+                  <div 
+                    class="thumbnail-card"
+                    style={`
+                      transform: translateX(${offset * 200}px) rotateY(${offset * 5}deg);
+                      opacity: ${1 - (z * 0.15)};
+                    `}
+                  >
+                    <img 
+                      src={thumbnail.url} 
+                      alt={thumbnail.title}
+                      class="w-full h-full object-cover rounded-lg border border-primary-light/30"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+.perspective-3000 {
+  perspective: 2000px;
+  perspective-origin: 50% 50%;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.thumbnail-grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.grid-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.grid-row {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+.thumbnail-card {
+  position: absolute;
+  width: 180px;
+  height: 101px;
+  will-change: transform;
+}
+</style>
+
+<script>
+const grid = document.querySelector('.thumbnail-grid');
+let ticking = false;
+
+function updateGrid() {
+  if (!grid || !ticking) return;
+  
+  const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  const rotation = scrollPercent * 180; // Reduced rotation range
+  grid.style.transform = `rotateX(20deg) rotateY(${rotation}deg)`; // Fixed X rotation for better visibility
+  
+  ticking = false;
+}
+
+function onScroll() {
+  if (!ticking) {
+    requestAnimationFrame(updateGrid);
+    ticking = true;
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+</script>

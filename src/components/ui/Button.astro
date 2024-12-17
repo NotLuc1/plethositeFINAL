@@ -1,0 +1,48 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'chrome' | 'neon';
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const { 
+  href, 
+  variant = 'chrome',
+  size = 'md',
+  type = 'button',
+  class: className,
+  ...props
+} = Astro.props;
+
+const baseStyles = "inline-flex items-center justify-center rounded-full transition-all duration-300 hover-glow relative overflow-hidden";
+const sizeStyles = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
+  lg: "px-8 py-4 text-lg"
+};
+
+const variantStyles = {
+  chrome: "bg-gradient-to-r from-primary-light to-primary hover:from-primary hover:to-primary-light text-white",
+  neon: "bg-transparent border-2 border-primary-light text-primary-light hover:bg-primary-light/10 hover:border-primary"
+};
+
+const styles = [
+  baseStyles,
+  sizeStyles[size],
+  variantStyles[variant],
+  className
+].join(" ");
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag 
+  href={href} 
+  type={href ? undefined : type} 
+  class={styles} 
+  {...props}
+>
+  <slot />
+</Tag>

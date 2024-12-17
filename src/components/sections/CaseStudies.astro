@@ -1,0 +1,112 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import Heading from '../ui/Heading.astro';
+import Graph from '../ui/Graph.astro';
+
+const cases = [
+  {
+    title: "Sketch Real",
+    description: "From humble beginnings to massive success: How we helped transform a small gaming channel into a major content powerhouse.",
+    metrics: [
+      { label: "Starting Point", value: "3K" },
+      { label: "Current Subs", value: "630K" },
+      { label: "Total Views", value: "230M" }
+    ],
+    graphData: [
+      { label: "Q1", value: 3, color: "rgba(66,165,245,0.5)" },
+      { label: "Q2", value: 150, color: "rgba(66,165,245,0.6)" },
+      { label: "Q3", value: 400, color: "rgba(66,165,245,0.7)" },
+      { label: "Q4", value: 630, color: "rgba(66,165,245,0.8)" }
+    ],
+    gradient: "from-primary-light/20 to-primary/20"
+  },
+  {
+    title: "Snapchat Empire",
+    description: "Built and managed a network of 200+ top creators on Snapchat, delivering consistent growth and engagement.",
+    metrics: [
+      { label: "Creators", value: "200+" },
+      { label: "Monthly Views", value: "1B+" },
+      { label: "Growth Rate", value: "300%" }
+    ],
+    graphData: [
+      { label: "Q1", value: 50, color: "rgba(66,165,245,0.5)" },
+      { label: "Q2", value: 100, color: "rgba(66,165,245,0.6)" },
+      { label: "Q3", value: 150, color: "rgba(66,165,245,0.7)" },
+      { label: "Q4", value: 200, color: "rgba(66,165,245,0.8)" }
+    ],
+    gradient: "from-primary/20 to-primary-light/20"
+  },
+  {
+    title: "Slam Dunk",
+    description: "Explosive growth on YouTube through strategic content optimization.",
+    metrics: [
+      { label: "Subscribers", value: "1M+" },
+      { label: "Views", value: "1B+" },
+      { label: "Timeframe", value: "6 Mo" }
+    ],
+    graphData: [
+      { label: "M1", value: 100, color: "rgba(66,165,245,0.5)" },
+      { label: "M3", value: 400, color: "rgba(66,165,245,0.6)" },
+      { label: "M5", value: 700, color: "rgba(66,165,245,0.7)" },
+      { label: "M6", value: 1000, color: "rgba(66,165,245,0.8)" }
+    ],
+    gradient: "from-primary-light/20 to-primary/20"
+  }
+];
+---
+
+<Section id="case-studies" background="space" class="py-32">
+  <Container>
+    <div class="text-center mb-20" data-fade>
+      <Heading level={2} class="text-4xl md:text-6xl mb-6">
+        SUCCESS STORIES
+      </Heading>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      {cases.map(case_ => (
+        <div 
+          class="group relative p-1 rounded-2xl bg-gradient-to-br from-chrome/10 to-chrome/5 hover:from-primary-light/20 hover:to-primary/20 transition-all duration-500 hover-glow"
+          data-fade
+        >
+          <!-- Glow effect on hover -->
+          <div class="absolute inset-0 bg-gradient-to-r from-primary-light/0 via-primary-light/20 to-primary-light/0 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"></div>
+          
+          <!-- Content -->
+          <div class="relative p-8 rounded-xl bg-midnight-dark/80 backdrop-blur-sm border border-chrome/10 group-hover:border-chrome/20 transition-all duration-500 h-full flex flex-col">
+            <!-- Title -->
+            <h3 class="text-2xl font-bold mb-4 bg-chrome-linear bg-clip-text text-transparent group-hover:text-primary-light transition-colors duration-500">
+              {case_.title}
+            </h3>
+            
+            <!-- Description -->
+            <p class="text-chrome/60 group-hover:text-chrome/80 transition-colors duration-500 mb-8">
+              {case_.description}
+            </p>
+
+            <!-- Growth Graph -->
+            <div class="mb-8 flex-grow">
+              <div class="text-sm text-chrome/60 mb-4">Growth Trajectory</div>
+              <Graph data={case_.graphData} height="120px" />
+            </div>
+
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-3 gap-4">
+              {case_.metrics.map(metric => (
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-primary-light mb-1 group-hover:text-primary-light/80 transition-colors duration-500">
+                    {metric.value}
+                  </div>
+                  <div class="text-sm text-chrome/60">
+                    {metric.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>

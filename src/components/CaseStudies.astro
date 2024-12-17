@@ -1,0 +1,64 @@
+---
+const cases = [
+  {
+    creator: "Gaming Legend",
+    growth: "10x",
+    views: "500M+",
+    revenue: "$2M+",
+    image: "/images/case1.jpg"
+  },
+  {
+    creator: "Lifestyle Creator",
+    growth: "5x",
+    views: "200M+",
+    revenue: "$1M+",
+    image: "/images/case2.jpg"
+  },
+  {
+    creator: "Educational Channel",
+    growth: "8x",
+    views: "300M+",
+    revenue: "$1.5M+",
+    image: "/images/case3.jpg"
+  }
+];
+---
+
+<section id="case-studies" class="py-20 bg-black">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">Proven Success Stories</h2>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        See how we've helped creators unlock their full earning potential
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {cases.map(case_ => (
+        <div 
+          class="bg-gray-900/50 rounded-2xl overflow-hidden border border-gray-800"
+          data-aos="fade-up"
+        >
+          <div class="aspect-video bg-gray-800"></div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold mb-4">{case_.creator}</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-gray-400">Growth</p>
+                <p class="text-2xl font-bold text-purple-500">{case_.growth}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">Views</p>
+                <p class="text-2xl font-bold text-purple-500">{case_.views}</p>
+              </div>
+              <div>
+                <p class="text-gray-400">Revenue</p>
+                <p class="text-2xl font-bold text-purple-500">{case_.revenue}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,114 @@
+---
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { 
+  class: className,
+  size = 'md'
+} = Astro.props;
+
+const sizeClasses = {
+  sm: "w-32",
+  md: "w-48",
+  lg: "w-64"
+};
+
+const styles = [
+  "relative perspective-1000 mb-8",
+  sizeClasses[size],
+  className
+].join(" ");
+---
+
+<div class={styles}>
+  <div class="relative transform-style-3d group">
+    <div class="relative preserve-3d logo-container">
+      <img 
+        src="/uploads/plethostextnew.png" 
+        alt="Plethos Logo" 
+        class="w-full h-auto filter drop-shadow-[0_0_15px_rgba(66,165,245,0.3)] group-hover:drop-shadow-[0_0_25px_rgba(66,165,245,0.5)] transition-all duration-500"
+      />
+      
+      <!-- Enhanced chrome reflection effect -->
+      <div class="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+      
+      <!-- Dynamic glow effect -->
+      <div class="absolute -inset-4 bg-primary-light/20 blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.preserve-3d {
+  transform: preserve-3d;
+}
+
+.logo-container {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.logo-container');
+  const wrapper = container?.parentElement;
+  
+  if (container && wrapper) {
+    let bounds = wrapper.getBoundingClientRect();
+    let mouseX = 0.5;
+    let mouseY = 0.5;
+    let currentX = 0.5;
+    let currentY = 0.5;
+
+    const lerp = (start: number, end: number, factor: number) => {
+      return start + (end - start) * factor;
+    };
+
+    const updateTransform = () => {
+      if (!container) return;
+      
+      currentX = lerp(currentX, mouseX, 0.1);
+      currentY = lerp(currentY, mouseY, 0.1);
+
+      const rotateX = (currentY - 0.5) * 20;
+      const rotateY = (currentX - 0.5) * 20;
+      const translateZ = 20;
+
+      container.style.transform = `
+        rotateX(${-rotateX}deg)
+        rotateY(${rotateY}deg)
+        translateZ(${translateZ}px)
+      `;
+
+      requestAnimationFrame(updateTransform);
+    };
+
+    wrapper.addEventListener('mousemove', (e) => {
+      bounds = wrapper.getBoundingClientRect();
+      mouseX = (e.clientX - bounds.left) / bounds.width;
+      mouseY = (e.clientY - bounds.top) / bounds.height;
+    });
+
+    wrapper.addEventListener('mouseleave', () => {
+      mouseX = 0.5;
+      mouseY = 0.5;
+    });
+
+    wrapper.addEventListener('mouseenter', () => {
+      container.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+
+    updateTransform();
+  }
+});
+</script>

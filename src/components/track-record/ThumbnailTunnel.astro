@@ -1,0 +1,162 @@
+---
+import { generatePlaceholderThumbnails } from '../../utils/thumbnails';
+
+const thumbnails = generatePlaceholderThumbnails(100);
+const ROWS = 10;
+const COLS = 7;
+---
+
+<div class="relative h-[1200px]" data-fade>
+  <div class="absolute inset-0 perspective-3000">
+    <div class="tunnel-container preserve-3d">
+      {Array.from({ length: ROWS }).map((_, rowIndex) => (
+        <div 
+          class="tunnel-row preserve-3d"
+          style={`transform: translateZ(${-rowIndex * 400}px)`}
+        >
+          {Array.from({ length: COLS }).map((_, colIndex) => {
+            const offset = colIndex - (COLS - 1) / 2;
+            const thumbnailIndex = rowIndex * COLS + colIndex;
+            const thumbnail = thumbnails[thumbnailIndex];
+            
+            return (
+              <div 
+                class="hologram-card preserve-3d"
+                style={`
+                  transform: translateX(${offset * 300}px) translateY(${Math.abs(offset) * 30}px) rotateY(${offset * 12}deg);
+                  opacity: ${1 - (rowIndex * 0.08)};
+                `}
+              >
+                <div class="hologram-content">
+                  <div 
+                    class="absolute inset-0 bg-cover bg-center"
+                    style={`background-image: url(${thumbnail.url})`}
+                  >
+                    <div class="absolute inset-0 bg-gradient-to-b from-primary-light/10 to-primary/30"></div>
+                  </div>
+                  <div class="hologram-frame"></div>
+                  <div class="hologram-scan"></div>
+                  <div class="hologram-glow"></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+.perspective-3000 {
+  perspective: 3000px;
+  perspective-origin: 50% 50%;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.tunnel-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  animation: tunnelFloat 20s ease-in-out infinite;
+}
+
+.tunnel-row {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hologram-card {
+  position: absolute;
+  width: 280px;
+  height: 157.5px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hologram-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: rgba(66, 165, 245, 0.05);
+  border: 1px solid rgba(66, 165, 245, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.hologram-frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(66, 165, 245, 0.5);
+  border-radius: 8px;
+  box-shadow: inset 0 0 20px rgba(66, 165, 245, 0.2);
+}
+
+.hologram-scan {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(66, 165, 245, 0.2),
+    rgba(66, 165, 245, 0.5),
+    rgba(66, 165, 245, 0.2),
+    transparent
+  );
+  animation: scanLine 3s linear infinite;
+  transform: skewX(-45deg);
+}
+
+.hologram-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 10px;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(66, 165, 245, 0.3),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hologram-card:hover .hologram-glow {
+  opacity: 1;
+}
+
+@keyframes tunnelFloat {
+  0%, 100% {
+    transform: translateY(0) rotateX(2deg);
+  }
+  50% {
+    transform: translateY(-30px) rotateX(-2deg);
+  }
+}
+
+@keyframes scanLine {
+  0% {
+    transform: translateX(-100%) skewX(-45deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-45deg);
+  }
+}
+</style>
+
+<script>
+import { setupTunnelInteractivity } from '../../utils/tunnel';
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupTunnelInteractivity();
+});
+</script>

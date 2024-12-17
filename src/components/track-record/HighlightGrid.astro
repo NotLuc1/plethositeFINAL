@@ -1,0 +1,42 @@
+---
+const highlights = [
+  {
+    title: "Creator Revenue",
+    value: "$20M+",
+    description: "Generated for our network of creators through strategic monetization and platform optimization"
+  },
+  {
+    title: "Monthly Views",
+    value: "3B+",
+    description: "Consistent monthly views across our creator network through data-driven content strategies"
+  },
+  {
+    title: "Platform Growth",
+    value: "300%",
+    description: "Average growth rate for creators in our network within the first 6 months"
+  }
+];
+---
+
+<div class="grid md:grid-cols-3 gap-8">
+  {highlights.map(highlight => (
+    <div 
+      class="group relative p-1 rounded-2xl bg-gradient-to-br from-chrome/10 to-chrome/5 hover:from-primary-light/20 hover:to-primary/20 transition-all duration-500 hover-glow"
+      data-fade
+    >
+      <div class="absolute inset-0 bg-gradient-to-r from-primary-light/0 via-primary-light/20 to-primary-light/0 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"></div>
+      
+      <div class="relative p-8 rounded-xl bg-midnight-dark/90 backdrop-blur-sm border border-chrome/10 group-hover:border-primary-light/50 transition-all duration-500">
+        <div class="text-4xl font-bold mb-4 bg-chrome-linear bg-clip-text text-transparent group-hover:text-primary-light transition-colors duration-500">
+          {highlight.value}
+        </div>
+        <h3 class="text-xl font-bold mb-3 text-chrome/80">
+          {highlight.title}
+        </h3>
+        <p class="text-chrome/60 group-hover:text-chrome/80 transition-colors duration-500">
+          {highlight.description}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>

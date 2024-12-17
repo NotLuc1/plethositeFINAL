@@ -1,0 +1,141 @@
+---
+import { getThumbnailsForRow } from '../../utils/thumbnails';
+
+// Configuration
+const ROWS = 3; // Three rows
+const THUMBNAILS_PER_ROW = 8; // More thumbnails per row
+
+// Get thumbnails for each row
+const rows = Array.from({ length: ROWS }, () => getThumbnailsForRow(THUMBNAILS_PER_ROW));
+---
+
+<div class="scrolling-thumbnails">
+  {rows.map((row, index) => (
+    <div class={`thumbnail-row ${index % 2 === 0 ? 'scroll-right' : 'scroll-left'}`}>
+      {/* Double the thumbnails for seamless scrolling */}
+      {[...row, ...row].map(thumbnail => (
+        <div class="thumbnail-card">
+          <div class="thumbnail-inner">
+            <img 
+              src={thumbnail.url} 
+              alt={thumbnail.title}
+              class="thumbnail-image"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>
+
+<style>
+.scrolling-thumbnails {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem; /* Increased gap between rows */
+  padding: 3rem 0;
+  overflow: hidden;
+}
+
+.thumbnail-row {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: scroll 40s linear infinite;
+  will-change: transform;
+  padding: 1rem 0;
+}
+
+.thumbnail-card {
+  flex-shrink: 0;
+  width: 320px; /* Larger width */
+  height: 180px; /* Larger height, maintaining 16:9 ratio */
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.thumbnail-inner {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(66, 165, 245, 0.2);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+  transition: transform 0.3s ease;
+}
+
+.scroll-right {
+  animation-name: scroll-right;
+}
+
+.scroll-left {
+  animation-name: scroll-left;
+}
+
+@keyframes scroll-right {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 1rem)); }
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(calc(-50% - 1rem)); }
+  to { transform: translateX(0); }
+}
+
+.thumbnail-row:hover {
+  animation-play-state: paused;
+}
+
+.thumbnail-card:hover .thumbnail-image {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scrolling-thumbnails {
+    gap: 3rem;
+  }
+  
+  .thumbnail-card {
+    width: 280px;
+    height: 157.5px;
+  }
+}
+</style>
+
+<script>
+// Add intersection observer to pause animations when not in view
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const rows = entry.target.querySelectorAll('.thumbnail-row');
+    rows.forEach(row => {
+      if (entry.isIntersecting) {
+        row.style.animationPlayState = 'running';
+      } else {
+        row.style.animationPlayState = 'paused';
+      }
+    });
+  });
+}, {
+  threshold: 0.1
+});
+
+// Observe the thumbnails container
+document.addEventListener('astro:page-load', () => {
+  const container = document.querySelector('.scrolling-thumbnails');
+  if (container) {
+    observer.observe(container);
+  }
+});
+</script>

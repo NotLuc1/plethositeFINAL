@@ -1,0 +1,36 @@
+---
+const stats = [
+  { number: "5B+", label: "Views Generated" },
+  { number: "$10M+", label: "Creator Revenue" },
+  { number: "100+", label: "Active Creators" },
+  { number: "4", label: "Major Platforms" }
+];
+---
+
+<section id="about" class="py-20 bg-gradient-to-b from-black to-gray-900">
+  <div class="container mx-auto px-6">
+    <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">Who We Are</h2>
+      <p class="text-xl text-gray-300">
+        We are a digital content studio producing content for the world's biggest platforms. 
+        With proven expertise in content optimization and monetization, we help creators 
+        maximize their reach and earnings through expert strategy, cutting-edge optimization, 
+        and data-driven insights.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {stats.map(stat => (
+        <div 
+          class="p-6 rounded-xl bg-gray-800/30 border border-gray-700"
+          data-aos="fade-up"
+        >
+          <div class="text-4xl md:text-5xl font-bold text-purple-500 mb-2">
+            {stat.number}
+          </div>
+          <div class="text-gray-400">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+---
+const services = [
+  {
+    title: "Content Strategy",
+    description: "Data-driven content planning and optimization to maximize reach and engagement.",
+    icon: "📊"
+  },
+  {
+    title: "Brand Development",
+    description: "Transform your personal brand into a powerful digital media presence.",
+    icon: "🎯"
+  },
+  {
+    title: "Monetization",
+    description: "Unlock multiple revenue streams through strategic partnerships and campaigns.",
+    icon: "💰"
+  },
+  {
+    title: "Distribution",
+    description: "Multi-platform content distribution to reach audiences where they are.",
+    icon: "🌐"
+  }
+];
+---
+
+<section id="services" class="py-20 bg-black">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Services</h2>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        Comprehensive solutions to grow your digital presence and maximize your impact
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {services.map(service => (
+        <div 
+          class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800 hover:border-purple-500/50 transition-colors"
+          data-aos="fade-up"
+        >
+          <div class="text-4xl mb-4">{service.icon}</div>
+          <h3 class="text-xl font-bold mb-3">{service.title}</h3>
+          <p class="text-gray-400">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

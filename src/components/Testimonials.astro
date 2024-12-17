@@ -1,0 +1,53 @@
+---
+const testimonials = [
+  {
+    name: "Alex Thompson",
+    role: "Gaming Creator",
+    quote: "Working with Viral Machine transformed my channel. They helped me focus on creating while handling all the optimization and monetization.",
+    image: "/images/testimonial1.jpg"
+  },
+  {
+    name: "Sarah Chen",
+    role: "Lifestyle Creator",
+    quote: "The team's data-driven approach and strategic insights helped me grow my audience exponentially across multiple platforms.",
+    image: "/images/testimonial2.jpg"
+  },
+  {
+    name: "Marcus Rodriguez",
+    role: "Educational Content Creator",
+    quote: "Their expertise in content optimization and monetization strategies has been invaluable for my channel's growth.",
+    image: "/images/testimonial3.jpg"
+  }
+];
+---
+
+<section class="py-20 bg-gradient-to-b from-gray-900 to-black">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16" data-aos="fade-up">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">What Creators Say</h2>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        Hear from the creators who've transformed their content with us
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {testimonials.map(testimonial => (
+        <div 
+          class="bg-gray-900/50 p-8 rounded-2xl border border-gray-800"
+          data-aos="fade-up"
+        >
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-16 h-16 rounded-full bg-gray-800"></div>
+            <div>
+              <h3 class="font-bold text-xl">{testimonial.name}</h3>
+              <p class="text-gray-400">{testimonial.role}</p>
+            </div>
+          </div>
+          <blockquote class="text-gray-300">
+            "{testimonial.quote}"
+          </blockquote>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

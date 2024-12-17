@@ -1,0 +1,77 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import Heading from '../ui/Heading.astro';
+import PlatformIcon from '../ui/PlatformIcon.astro';
+
+const services = [
+  {
+    title: "Snapchat Stories",
+    description: "We post a constant stream of content optimized for Snapchat to help you establish a following and earn revenue on the platform",
+    platform: "snapchat",
+    icon: "/images/media/snapchat logo.png",
+    gradient: "from-[#FFFC00]/20 to-[#FFFC00]/5"
+  },
+  {
+    title: "Microsoft Content Distribution",
+    description: "Onboard and optimize your content to be redistributed to Microsoft's 300M daily active users",
+    platform: "microsoft",
+    gradient: "from-[#00A4EF]/20 to-[#00A4EF]/5"
+  },
+  {
+    title: "YouTube Redistribution",
+    description: "Run YouTube channels for live streamers to grow their YouTube presence and increase their ad sense earnings",
+    platform: "youtube",
+    gradient: "from-[#FF0000]/20 to-[#FF0000]/5"
+  }
+];
+---
+
+<Section id="services" background="space" class="py-32">
+  <Container>
+    <div class="text-center mb-20" data-fade>
+      <Heading level={2} class="text-4xl md:text-6xl mb-6">
+        PLATFORM SERVICES
+      </Heading>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {services.map(service => (
+        <div 
+          class="group relative p-1 rounded-2xl bg-gradient-to-br from-chrome/10 to-chrome/5 hover:from-primary-light/20 hover:to-primary/20 transition-all duration-500 hover-glow h-full"
+          data-fade
+        >
+          <div class="absolute inset-0 bg-gradient-to-r from-primary-light/0 via-primary-light/20 to-primary-light/0 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"></div>
+          
+          <div class="relative h-full p-8 rounded-xl bg-midnight-dark/80 backdrop-blur-sm border border-chrome/10 group-hover:border-primary-light/50 transition-all duration-500">
+            <div class="w-16 h-16 mb-6 relative">
+              <div class="absolute inset-0 bg-gradient-to-br from-primary-light/20 to-primary/10 rounded-lg blur-lg opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div class="relative w-full h-full rounded-lg bg-midnight-dark/80 border border-chrome/20 group-hover:border-primary-light/30 flex items-center justify-center transition-all duration-500">
+                {service.icon ? (
+                  <img 
+                    src={service.icon} 
+                    alt={`${service.title} icon`}
+                    class="w-10 h-10 object-contain"
+                  />
+                ) : (
+                  <PlatformIcon 
+                    platform={service.platform} 
+                    class="w-8 h-8 text-chrome group-hover:text-primary-light transition-colors duration-500" 
+                  />
+                )}
+              </div>
+            </div>
+            
+            <h3 class="text-2xl font-bold mb-4 bg-chrome-linear bg-clip-text text-transparent group-hover:text-primary-light transition-colors duration-500">
+              {service.title}
+            </h3>
+            
+            <p class="text-chrome/60 group-hover:text-chrome/80 transition-colors duration-500">
+              {service.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>

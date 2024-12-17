@@ -1,0 +1,142 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import Heading from '../ui/Heading.astro';
+
+const highlights = [
+  {
+    title: "Creator Revenue",
+    value: "$20M+",
+    description: "Generated for our network of creators through strategic monetization and platform optimization"
+  },
+  {
+    title: "Monthly Views",
+    value: "3B+",
+    description: "Consistent monthly views across our creator network through data-driven content strategies"
+  },
+  {
+    title: "Platform Growth",
+    value: "300%",
+    description: "Average growth rate for creators in our network within the first 6 months"
+  }
+];
+
+// Define image rows with direct paths
+const imageRows = [
+  [
+    '/images/uploads 2/genesis.jpg',
+    '/images/uploads 2/notluc 1.jpg',
+    '/images/uploads 2/sketch 1.jpg',
+    '/images/uploads 2/sketch 4.jpg',
+    '/images/uploads 2/rakai 1.jpg',
+    '/images/uploads 2/lls 1.jpg'
+  ],
+  [
+    '/images/uploads 2/ForthavenRP.jpg',
+    '/images/uploads 2/Only Up (1).jpg',
+    '/images/uploads 2/laws_of_power.png',
+    '/images/uploads 2/Halloween-Deathrun.jpg',
+    '/images/uploads 2/supermarket-prop-hunt.jpg',
+    '/images/uploads 2/arm-wrestle-tycoon-2.png'
+  ],
+  [
+    '/images/uploads 2/zombie-survival (1).jpg',
+    '/images/uploads 2/OG-Mini-2 (1).jpg',
+    '/images/uploads 2/heros.jpg',
+    '/images/uploads 2/genesis 2.jpg',
+    '/images/uploads 2/notluc 2.jpg',
+    '/images/uploads 2/sketch 2.jpg'
+  ]
+];
+---
+
+<Section id="track-record" background="space" class="py-32 relative overflow-hidden">
+  <!-- Background Image Rows -->
+  <div class="absolute inset-0 opacity-20">
+    <div class="absolute inset-0 bg-gradient-to-b from-midnight via-midnight/95 to-midnight pointer-events-none z-10"></div>
+    
+    <!-- Image Rows Container -->
+    <div class="relative w-full h-full">
+      {imageRows.map((row, index) => (
+        <div class={`absolute w-full overflow-hidden py-8 ${
+          index === 0 ? 'top-[10%]' : 
+          index === 1 ? 'top-[40%]' : 
+          'top-[70%]'
+        }`}>
+          <div class={`flex gap-8 ${index % 2 === 0 ? 'animate-scroll-right' : 'animate-scroll-left'}`}>
+            {/* Double the row for seamless scrolling */}
+            {[...row, ...row].map(imagePath => (
+              <div class="flex-shrink-0 w-72 h-40 bg-midnight-dark/50 rounded-lg overflow-hidden border border-chrome/10">
+                <img 
+                  src={imagePath}
+                  alt="Content thumbnail"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Content -->
+  <Container class="relative z-20">
+    <div class="text-center mb-20" data-fade>
+      <Heading level={2} class="text-4xl md:text-6xl mb-6">
+        TRACK RECORD
+      </Heading>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {highlights.map(highlight => (
+        <div 
+          class="group relative p-1 rounded-2xl bg-gradient-to-br from-chrome/10 to-chrome/5 hover:from-primary-light/20 hover:to-primary/20 transition-all duration-500 hover-glow"
+          data-fade
+        >
+          <div class="absolute inset-0 bg-gradient-to-r from-primary-light/0 via-primary-light/20 to-primary-light/0 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"></div>
+          
+          <div class="relative p-8 rounded-xl bg-midnight-dark/90 backdrop-blur-sm border border-chrome/10 group-hover:border-primary-light/50 transition-all duration-500">
+            <div class="text-4xl font-bold mb-4 bg-chrome-linear bg-clip-text text-transparent group-hover:text-primary-light transition-colors duration-500">
+              {highlight.value}
+            </div>
+            <h3 class="text-xl font-bold mb-3 text-chrome/80">
+              {highlight.title}
+            </h3>
+            <p class="text-chrome/60 group-hover:text-chrome/80 transition-colors duration-500">
+              {highlight.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>
+
+<style>
+@keyframes scroll-right {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.animate-scroll-right {
+  animation: scroll-right 60s linear infinite;
+  width: max-content;
+}
+
+.animate-scroll-left {
+  animation: scroll-left 60s linear infinite;
+  width: max-content;
+}
+
+.animate-scroll-right:hover,
+.animate-scroll-left:hover {
+  animation-play-state: paused;
+}
+</style>

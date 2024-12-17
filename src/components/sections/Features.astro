@@ -1,0 +1,60 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import Heading from '../ui/Heading.astro';
+
+const features = [
+  {
+    icon: "🤝",
+    title: "Creator-First Approach",
+    description: "We put creators at the heart of everything we do, ensuring your vision and goals drive our strategy."
+  },
+  {
+    icon: "📊",
+    title: "Proven Results",
+    description: "Our data-driven approach has generated over $10M in revenue and 5B+ views for our creators."
+  },
+  {
+    icon: "🌐",
+    title: "Multi-Platform Reach",
+    description: "Maximize your presence across all major platforms with optimized, platform-specific content."
+  },
+  {
+    icon: "📈",
+    title: "Data-Driven Growth",
+    description: "Leverage advanced analytics and insights to make informed decisions and drive sustainable growth."
+  }
+];
+---
+
+<Section background="gradient" class="py-32">
+  <Container>
+    <div class="text-center mb-16">
+      <Heading level={2} class="text-4xl md:text-5xl mb-6">
+        Why Choose Viral Machine
+      </Heading>
+      <p class="text-xl text-chrome/60 max-w-2xl mx-auto">
+        We combine cutting-edge technology with proven strategies to help creators reach their full potential.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {features.map(feature => (
+        <div 
+          class="group p-8 rounded-2xl bg-gradient-to-br from-midnight-light/50 to-midnight border border-chrome/10 hover:border-neon-blue/50 transition-all duration-500"
+          data-fade
+        >
+          <div class="text-5xl mb-6 transform group-hover:scale-110 transition-transform duration-500">
+            {feature.icon}
+          </div>
+          <h3 class="text-xl font-bold mb-4 bg-chrome-linear bg-clip-text text-transparent">
+            {feature.title}
+          </h3>
+          <p class="text-chrome/60">
+            {feature.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </Container>
+</Section>

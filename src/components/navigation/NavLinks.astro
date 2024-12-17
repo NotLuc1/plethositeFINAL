@@ -1,0 +1,20 @@
+---
+const links = [
+  { text: "Home", href: "/" },
+  { text: "Services", href: "#services" },
+  { text: "Track Record", href: "#track-record" },
+  { text: "About", href: "#about" },
+  { text: "Contact", href: "#contact" }
+];
+---
+
+<div class="hidden md:flex space-x-8">
+  {links.map(link => (
+    <a 
+      href={link.href}
+      class="text-white/80 hover:text-white transition-colors"
+    >
+      {link.text}
+    </a>
+  ))}
+</div>

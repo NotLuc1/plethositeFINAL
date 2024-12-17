@@ -1,0 +1,32 @@
+---
+interface Props {
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  variant?: 'chrome' | 'neon';
+  class?: string;
+}
+
+const { 
+  level = 2, 
+  variant = 'chrome',
+  class: className,
+  ...props
+} = Astro.props;
+
+const Tag = `h${level}` as keyof HTMLElementTagNameMap;
+
+const baseStyles = "font-display tracking-tight";
+const variantStyles = {
+  chrome: "chrome-text",
+  neon: "neon-text"
+};
+
+const styles = [
+  baseStyles,
+  variantStyles[variant],
+  className
+].join(" ");
+---
+
+<Tag class={styles} {...props}>
+  <slot />
+</Tag>

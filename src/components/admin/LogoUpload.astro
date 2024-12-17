@@ -1,0 +1,212 @@
+---
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import Heading from '../ui/Heading.astro';
+import Button from '../ui/Button.astro';
+
+// Create uploads directory if it doesn't exist
+await Astro.fs.mkdir('public/images', { recursive: true });
+
+// Handle file upload
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    const file = formData.get('logo');
+    
+    if (!file || !(file instanceof File)) {
+      throw new Error('No file uploaded');
+    }
+
+    // Convert file to buffer
+    const buffer = Buffer.from(await file.arrayBuffer());
+    
+    // Save file
+    await Astro.fs.writeFile('public/images/logo.png', buffer);
+
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ 
+      error: error instanceof Error ? error.message : 'Upload failed' 
+    }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+---
+
+<Section id="logo-upload" background="gradient" class="py-32">
+  <Container>
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <Heading level={2} class="text-4xl md:text-6xl mb-6">
+          LOGO UPLOAD
+        </Heading>
+        <p class="text-xl text-chrome/60 max-w-2xl mx-auto">
+          Upload your logo in PNG format. The image will be automatically optimized and used throughout the site.
+        </p>
+      </div>
+
+      <form 
+        id="uploadForm"
+        class="space-y-8"
+        enctype="multipart/form-data"
+      >
+        <!-- Drop Zone -->
+        <div 
+          id="dropZone"
+          class="w-full aspect-video border-2 border-dashed border-chrome/20 rounded-lg flex flex-col items-center justify-center p-8 bg-midnight-dark/50 hover:border-neon-purple/50 transition-all duration-300 cursor-pointer"
+        >
+          <div class="text-5xl mb-6">🖼️</div>
+          <p class="text-xl text-chrome/60 text-center mb-4">
+            Drag and drop your logo here
+          </p>
+          <p class="text-sm text-chrome/40">
+            or click to browse
+          </p>
+          <input 
+            type="file"
+            id="logo"
+            name="logo"
+            accept=".png"
+            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          />
+        </div>
+
+        <!-- Preview -->
+        <div id="preview" class="hidden">
+          <div class="text-sm text-chrome/60 mb-4">Preview:</div>
+          <div class="w-full aspect-video rounded-lg bg-midnight-dark/50 border border-chrome/10 p-4 flex items-center justify-center">
+            <img 
+              id="logoPreview" 
+              src="" 
+              alt="Logo preview" 
+              class="max-w-full max-h-full object-contain"
+            />
+          </div>
+        </div>
+
+        <!-- Upload Button -->
+        <div class="flex justify-center">
+          <Button type="submit" size="lg">
+            Upload Logo
+          </Button>
+        </div>
+
+        <!-- Status Message -->
+        <div 
+          id="uploadStatus" 
+          class="text-center hidden p-4 rounded-lg"
+        ></div>
+      </form>
+    </div>
+  </Container>
+</Section>
+
+<script>
+  const form = document.getElementById('uploadForm') as HTMLFormElement;
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('logo') as HTMLInputElement;
+  const preview = document.getElementById('preview');
+  const logoPreview = document.getElementById('logoPreview') as HTMLImageElement;
+  const uploadStatus = document.getElementById('uploadStatus');
+
+  // Prevent default drag behaviors
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone?.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+  });
+
+  // Handle drag and drop
+  dropZone?.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    if (dt?.files && dt.files[0]) {
+      handleFile(dt.files[0]);
+    }
+  });
+
+  // Handle file input change
+  fileInput?.addEventListener('change', (e) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+      handleFile(target.files[0]);
+    }
+  });
+
+  function handleFile(file: File) {
+    // Validate file type
+    if (file.type !== 'image/png') {
+      showError('Please upload a PNG file');
+      return;
+    }
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      showError('File size exceeds 5MB limit');
+      return;
+    }
+
+    // Show preview
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (preview && logoPreview && e.target?.result) {
+        preview.classList.remove('hidden');
+        logoPreview.src = e.target.result as string;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Handle form submission
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!fileInput.files || !fileInput.files[0]) {
+      showError('Please select a file');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('logo', fileInput.files[0]);
+
+    showStatus('Uploading...', 'text-neon-purple');
+
+    try {
+      const response = await fetch('', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        showStatus('Upload successful! Refreshing...', 'text-green-500');
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        throw new Error(data.error || 'Upload failed');
+      }
+    } catch (error) {
+      showError(error instanceof Error ? error.message : 'Upload failed');
+    }
+  });
+
+  function showStatus(message: string, className: string) {
+    if (uploadStatus) {
+      uploadStatus.classList.remove('hidden');
+      uploadStatus.className = `text-center p-4 rounded-lg ${className}`;
+      uploadStatus.textContent = message;
+    }
+  }
+
+  function showError(message: string) {
+    showStatus(message, 'text-red-500');
+    setTimeout(() => {
+      if (uploadStatus) uploadStatus.classList.add('hidden');
+    }, 3000);
+  }
+</script>

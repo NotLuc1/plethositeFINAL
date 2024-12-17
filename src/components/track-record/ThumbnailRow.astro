@@ -1,0 +1,72 @@
+---
+import type { Thumbnail } from '../../utils/thumbnails';
+import ThumbnailCard from './ThumbnailCard.astro';
+
+interface Props {
+  thumbnails: Thumbnail[];
+  direction: 'left' | 'right';
+  speed: number;
+}
+
+const { thumbnails, direction, speed } = Astro.props;
+---
+
+<div class="thumbnail-row-container">
+  <div 
+    class={`thumbnail-row scroll-${direction}`}
+    style={`--scroll-speed: ${speed}s`}
+  >
+    {/* Double the thumbnails for seamless scrolling */}
+    {[...thumbnails, ...thumbnails].map(thumbnail => (
+      <ThumbnailCard thumbnail={thumbnail} />
+    ))}
+  </div>
+</div>
+
+<style>
+.thumbnail-row-container {
+  position: relative;
+  width: 100%;
+  /* Add padding to prevent cutoff */
+  padding: 1rem 0;
+  /* Ensure container doesn't collapse */
+  min-height: 180px;
+  /* Hide overflow on container level */
+  overflow: hidden;
+}
+
+.thumbnail-row {
+  display: flex;
+  gap: 2rem;
+  /* Remove padding that could cause cutoff */
+  width: max-content;
+  /* Ensure proper height */
+  min-height: 160px;
+  animation: scroll var(--scroll-speed) linear infinite;
+  /* Force GPU acceleration */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.scroll-right {
+  animation-name: scroll-right;
+}
+
+.scroll-left {
+  animation-name: scroll-left;
+}
+
+@keyframes scroll-right {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.thumbnail-row:hover {
+  animation-play-state: paused;
+}
+</style>

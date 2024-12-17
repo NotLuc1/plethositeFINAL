@@ -1,0 +1,73 @@
+---
+import Container from './ui/Container.astro';
+import ChromeText from './ui/ChromeText.astro';
+
+const sections = {
+  Company: [
+    { text: 'About', href: '#about' },
+    { text: 'Track Record', href: '#track-record' },
+    { text: 'Contact', href: '#contact' }
+  ],
+  Services: [
+    { text: 'Snapchat Stories', href: '#services' },
+    { text: 'Microsoft Distribution', href: '#services' },
+    { text: 'YouTube Redistribution', href: '#services' }
+  ]
+};
+
+const socialLinks = [
+  { icon: '𝕏', href: '#', label: 'Twitter' },
+  { icon: '📸', href: '#', label: 'Instagram' },
+  { icon: '▶️', href: '#', label: 'YouTube' }
+];
+---
+
+<footer class="py-20 relative overflow-hidden">
+  <Container>
+    <div class="grid md:grid-cols-12 gap-12">
+      <!-- Brand Column -->
+      <div class="md:col-span-4">
+        <ChromeText as="h2" class="text-3xl font-light mb-4">
+          Pletho
+        </ChromeText>
+        <p class="text-chrome/60 mb-8 max-w-md">
+          Empowering creators to reach their full potential in the digital age.
+        </p>
+        <div class="flex space-x-6">
+          {socialLinks.map(({ icon, href, label }) => (
+            <a 
+              href={href}
+              class="text-chrome/60 hover:text-neon-purple transition-colors duration-300"
+              aria-label={label}
+            >
+              {icon}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Navigation Columns -->
+      {Object.entries(sections).map(([title, links]) => (
+        <div class="md:col-span-2">
+          <h3 class="text-chrome font-medium mb-6">{title}</h3>
+          <ul class="space-y-4">
+            {links.map(({ text, href }) => (
+              <li>
+                <a 
+                  href={href}
+                  class="text-chrome/60 hover:text-neon-purple transition-colors duration-300"
+                >
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-chrome/10 text-center text-chrome/40">
+      <p>&copy; {new Date().getFullYear()} Pletho. All rights reserved.</p>
+    </div>
+  </Container>
+</footer>

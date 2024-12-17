@@ -1,0 +1,30 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+  background?: 'dark' | 'gradient' | 'space';
+}
+
+const { 
+  id, 
+  class: className,
+  background = 'dark'
+} = Astro.props;
+
+const backgroundStyles = {
+  dark: "bg-midnight",
+  gradient: "bg-gradient-to-b from-midnight to-midnight-dark",
+  space: "bg-deep-space"
+};
+
+const styles = [
+  "py-20 relative overflow-hidden",
+  backgroundStyles[background],
+  className
+].join(" ");
+---
+
+<section id={id} class={styles}>
+  <slot name="background" />
+  <slot />
+</section>

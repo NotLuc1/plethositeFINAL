@@ -1,0 +1,95 @@
+---
+import type { Thumbnail } from '../../utils/thumbnails';
+
+interface Props {
+  thumbnail: Thumbnail;
+  class?: string;
+}
+
+const { thumbnail, class: className = '' } = Astro.props;
+---
+
+<div class={`thumbnail-card ${className}`}>
+  <div class="thumbnail-wrapper">
+    <div class="thumbnail-image-container">
+      <img
+        src={thumbnail.url}
+        alt={thumbnail.title}
+        class="thumbnail-image"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+.thumbnail-card {
+  flex-shrink: 0;
+  width: 280px; /* Fixed width */
+  /* Add padding to prevent cutoff */
+  padding: 0.5rem;
+}
+
+.thumbnail-wrapper {
+  position: relative;
+  width: 100%;
+  /* Force 16:9 aspect ratio */
+  padding-top: 56.25%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(66, 165, 245, 0.2);
+  transition: all 0.3s ease;
+}
+
+.thumbnail-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Prevent image from being squished */
+  object-position: center;
+  /* Smooth loading */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.thumbnail-image[loading="lazy"] {
+  opacity: 0;
+}
+
+.thumbnail-image.loaded {
+  opacity: 1;
+}
+
+.thumbnail-wrapper:hover {
+  border-color: rgba(66, 165, 245, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+</style>
+
+<script>
+// Add loaded class when images finish loading
+document.addEventListener('astro:page-load', () => {
+  const images = document.querySelectorAll('.thumbnail-image');
+  images.forEach(img => {
+    if (img instanceof HTMLImageElement) {
+      if (img.complete) {
+        img.classList.add('loaded');
+      } else {
+        img.onload = () => img.classList.add('loaded');
+      }
+    }
+  });
+});
+</script>

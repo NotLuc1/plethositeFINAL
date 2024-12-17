@@ -1,0 +1,32 @@
+---
+const links = {
+  Company: [
+    { text: 'About', href: '/about' },
+    { text: 'Careers', href: '/careers' },
+    { text: 'Contact', href: '/contact' }
+  ],
+  Services: [
+    { text: 'Content Strategy', href: '/services#content' },
+    { text: 'Brand Development', href: '/services#brand' },
+    { text: 'Monetization', href: '/services#monetization' }
+  ]
+};
+---
+
+{Object.entries(links).map(([category, items]) => (
+  <div>
+    <h4 class="font-bold mb-4">{category}</h4>
+    <ul class="space-y-2">
+      {items.map(({ text, href }) => (
+        <li>
+          <a 
+            href={href}
+            class="text-gray-400 hover:text-white transition-colors"
+          >
+            {text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+))}

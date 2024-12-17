@@ -1,0 +1,53 @@
+---
+interface Props {
+  data: {
+    label: string;
+    value: number;
+    color: string;
+  }[];
+  height?: string;
+}
+
+const { data, height = "200px" } = Astro.props;
+
+// Find the maximum value for scaling
+const maxValue = Math.max(...data.map(item => item.value));
+
+// Calculate percentages for scaling
+const percentages = data.map(item => ({
+  ...item,
+  percentage: (item.value / maxValue) * 100
+}));
+---
+
+<div class="relative" style={`height: ${height}`}>
+  <!-- Grid lines -->
+  <div class="absolute inset-0 flex flex-col justify-between">
+    {[...Array(5)].map((_, i) => (
+      <div class="w-full border-t border-chrome/10"></div>
+    ))}
+  </div>
+
+  <!-- Bars -->
+  <div class="absolute inset-0 flex items-end justify-between gap-4 px-2">
+    {percentages.map(item => (
+      <div class="flex-1 group">
+        <div 
+          class="w-full bg-gradient-to-t from-primary-light/20 to-transparent rounded-t-lg transition-all duration-700 ease-out transform origin-bottom group-hover:scale-y-110 group-hover:from-primary-light/40"
+          style={`height: ${item.percentage}%;`}
+        >
+          <!-- Animated glow effect -->
+          <div class="absolute inset-0 bg-gradient-to-t from-primary-light/0 to-primary-light/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <!-- Value tooltip -->
+          <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-midnight-dark/90 px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap transform -translate-y-2 group-hover:-translate-y-0">
+            {item.value.toLocaleString()}
+          </div>
+        </div>
+        <div class="text-center mt-2 text-sm text-chrome/60 transition-colors duration-300 group-hover:text-chrome">
+          {item.label}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

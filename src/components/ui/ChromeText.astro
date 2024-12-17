@@ -1,0 +1,65 @@
+---
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+
+const { 
+  as: Tag = 'span',
+  class: className,
+  ...props
+} = Astro.props;
+
+const styles = [
+  'chrome-metallic-text',
+  className
+].join(' ');
+---
+
+<Tag class={styles} {...props}>
+  <slot />
+</Tag>
+
+<style>
+  .chrome-metallic-text {
+    background: linear-gradient(
+      180deg,
+      #FFFFFF 0%,
+      #E8E9EB 25%,
+      #C4C7CA 50%,
+      #9EA2A6 75%,
+      #85898D 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    position: relative;
+  }
+
+  .chrome-metallic-text::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transform: translateX(-100%);
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+</style>

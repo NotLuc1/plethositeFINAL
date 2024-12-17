@@ -1,0 +1,43 @@
+---
+import NavLinks from './NavLinks.astro';
+
+---
+
+<div id="mobileMenu" class="fixed inset-0 bg-black/95 backdrop-blur-lg transform translate-x-full transition-transform duration-300 z-50">
+  <div class="container mx-auto px-6 py-8">
+    <div class="flex justify-end mb-8">
+      <button id="closeMenu" class="text-white p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="flex flex-col space-y-6 text-center text-2xl">
+      <a href="/" class="text-white/80 hover:text-white transition-colors">Home</a>
+      <a href="#services" class="text-white/80 hover:text-white transition-colors">Services</a>
+      <a href="#creators" class="text-white/80 hover:text-white transition-colors">Creators</a>
+      <a href="#about" class="text-white/80 hover:text-white transition-colors">About</a>
+      <a href="#contact" class="text-white/80 hover:text-white transition-colors">Contact</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const mobileMenu = document.getElementById('mobileMenu');
+  const openButton = document.getElementById('openMenu');
+  const closeButton = document.getElementById('closeMenu');
+  const menuLinks = mobileMenu?.querySelectorAll('a');
+
+  function toggleMenu() {
+    mobileMenu?.classList.toggle('translate-x-full');
+    document.body.classList.toggle('overflow-hidden');
+  }
+
+  openButton?.addEventListener('click', toggleMenu);
+  closeButton?.addEventListener('click', toggleMenu);
+
+  menuLinks?.forEach(link => {
+    link.addEventListener('click', toggleMenu);
+  });
+</script>

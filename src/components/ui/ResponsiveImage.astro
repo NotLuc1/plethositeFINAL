@@ -1,0 +1,33 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  aspectRatio?: 'landscape' | 'portrait' | 'square';
+  objectFit?: 'cover' | 'contain';
+}
+
+const {
+  src,
+  alt,
+  class: className = '',
+  aspectRatio = 'landscape',
+  objectFit = 'cover'
+} = Astro.props;
+
+const aspectRatioStyles = {
+  landscape: 'aspect-video', // 16:9
+  portrait: 'aspect-[3/4]',  // 3:4
+  square: 'aspect-square'    // 1:1
+};
+---
+
+<div class={`relative overflow-hidden ${aspectRatioStyles[aspectRatio]} ${className}`}>
+  <img
+    src={src}
+    alt={alt}
+    class={`absolute inset-0 w-full h-full object-${objectFit}`}
+    loading="lazy"
+    decoding="async"
+  />
+</div>
